@@ -169,10 +169,10 @@ namespace ml_classifiers{
         //Set the training params
         svm_parameter params;
         params.svm_type = C_SVC;
-        params.kernel_type = LINEAR;
+        params.kernel_type = RBF;
         params.cache_size = 100.0;  
-        params.gamma = 1.0/10.0;
-        params.C = 100.0;
+        params.gamma = 1.0;
+        params.C = 1.0;
         params.eps = 0.001;
         params.shrinking = 1;
         params.probability = 0;
