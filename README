@@ -1,0 +1,11 @@
+Documentation for ml_classifiers
+Package maintained by Scott Niekum
+sniekum@willowgarage.com
+sniekum@cs.umass.edu
+****************************************
+
+
+OVERVIEW
+---------
+
+This package is a general, robot-agnostic implementation several machine learning algorithms for supervised classification.

@@ -1,0 +1,23 @@
+<class_libraries>
+  <library path="lib/libZeroClassifier">
+    <class name="ml_classifiers/ZeroClassifier" type="ml_classifiers::ZeroClassifier" base_class_type="ml_classifiers::Classifier">
+      <description>
+        A classifier that classifiers everything as class 0
+      </description>
+    </class>
+  </library>
+  <library path="lib/libNearestNeighborClassifier">
+    <class name="ml_classifiers/NearestNeighborClassifier" type="ml_classifiers::NearestNeighborClassifier" base_class_type="ml_classifiers::Classifier">
+      <description>
+        A nearest neighbor classifier
+      </description>
+    </class>
+  </library>
+  <library path="lib/libSVMClassifier">
+    <class name="ml_classifiers/SVMClassifier" type="ml_classifiers::SVMClassifier" base_class_type="ml_classifiers::Classifier">
+      <description>
+        An SVM classifier build on libSVM
+      </description>
+    </class>
+  </library>
+</class_libraries>

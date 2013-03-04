@@ -1,0 +1,22 @@
+<package>
+  <description brief="ml_classifiers">
+
+     ml_classifiers
+
+  </description>
+  <author>Scott Niekum</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/dmp</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="pluginlib"/>
+
+  <export>
+    <ml_classifiers plugin="${prefix}/default_classifiers_plugin.xml" />
+  </export>
+  
+</package>
+
+

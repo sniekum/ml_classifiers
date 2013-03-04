@@ -1,0 +1,3 @@
+<launch>
+	<node name="classifier_server" pkg="ml_classifiers" type="classifier_server" respawn="false" output="screen"/>
+</launch>
