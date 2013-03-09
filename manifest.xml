@@ -7,11 +7,12 @@
   <author>Scott Niekum</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/dmp</url>
+  <url>http://ros.org/wiki/ml_classifiers</url>
   <depend package="std_msgs"/>
   <depend package="rospy"/>
   <depend package="roscpp"/>
   <depend package="pluginlib"/>
+  <rosdep name="eigen" />
 
   <export>
     <ml_classifiers plugin="${prefix}/default_classifiers_plugin.xml" />
