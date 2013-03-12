@@ -12,7 +12,6 @@
   <depend package="rospy"/>
   <depend package="roscpp"/>
   <depend package="pluginlib"/>
-  <rosdep name="eigen" />
 
   <export>
     <ml_classifiers plugin="${prefix}/default_classifiers_plugin.xml" />
