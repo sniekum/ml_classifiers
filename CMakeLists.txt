@@ -31,10 +31,11 @@ rosbuild_gensrv()
 #target_link_libraries(example ${PROJECT_NAME})
 
 find_package(Eigen REQUIRED)
-include_directories(${Eigen_INCLUDE_DIRS})
+include_directories(${EIGEN_INCLUDE_DIRS})
+add_definitions(${EIGEN_DEFINITIONS})
 
 rosbuild_add_library(ZeroClassifier src/zero_classifier.cpp) 
 rosbuild_add_library(NearestNeighborClassifier src/nearest_neighbor_classifier.cpp)
 rosbuild_add_library(SVMClassifier src/svm_classifier.cpp src/libsvm-3.14/svm.cpp)
 rosbuild_add_executable(classifier_server nodes/classifier_server.cpp)
-rosbuild_make_distribution(0.1.0)
+rosbuild_make_distribution(0.2.0)
