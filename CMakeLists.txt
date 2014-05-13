@@ -1,41 +1,41 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
-set(ROSPACK_MAKEDIST true)
+# http://ros.org/doc/groovy/api/catkin/html/user_guide/supposed.html
+cmake_minimum_required(VERSION 2.8.3)
+project(ml_classifiers)
 
-# Set the build type.  Options are:
-#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-#set(ROS_BUILD_TYPE RelWithDebInfo)
+find_package(catkin REQUIRED COMPONENTS message_generation std_msgs rospy roscpp pluginlib eigen)
 
-rosbuild_init()
+add_message_files(FILES
+  ClassDataPoint.msg
+  DIRECTORY msg)
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+add_service_files(FILES
+  AddClassData.srv ClassifyData.srv 	ClearClassifier.srv 	CreateClassifier.srv
+  LoadClassifier.srv SaveClassifier.srv TrainClassifier.srv
+  DIRECTORY srv)
 
-#uncomment if you have defined messages
-rosbuild_genmsg()
-#uncomment if you have defined services
-rosbuild_gensrv()
+generate_messages(DEPENDENCIES std_msgs)
 
-#common commands for building c++ executables and libraries
-#rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
-#rosbuild_add_executable(example examples/example.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
+catkin_package(
+    DEPENDS eigen
+    CATKIN_DEPENDS message_runtime std_msgs rospy roscpp pluginlib 
+    INCLUDE_DIRS include
+    LIBRARIES ZeroClassifier NearestNeighborClassifier SVMClassifier
+)
 
 find_package(Eigen REQUIRED)
-include_directories(${EIGEN_INCLUDE_DIRS})
 add_definitions(${EIGEN_DEFINITIONS})
 
-rosbuild_add_library(ZeroClassifier src/zero_classifier.cpp) 
-rosbuild_add_library(NearestNeighborClassifier src/nearest_neighbor_classifier.cpp)
-rosbuild_add_library(SVMClassifier src/svm_classifier.cpp src/libsvm-3.14/svm.cpp)
-rosbuild_add_executable(classifier_server nodes/classifier_server.cpp)
-rosbuild_make_distribution(0.2.0)
+include_directories(include ${EIGEN_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+
+add_library(ZeroClassifier src/zero_classifier.cpp) 
+add_library(NearestNeighborClassifier src/nearest_neighbor_classifier.cpp)
+add_library(SVMClassifier src/svm_classifier.cpp src/libsvm-3.14/svm.cpp)
+add_executable(classifier_server nodes/classifier_server.cpp)
+target_link_libraries(classifier_server ${catkin_LIBRARIES})
+add_dependencies(classifier_server ${PROJECT_NAME}_generate_messages_cpp)
+
+install(TARGETS classifier_server ZeroClassifier NearestNeighborClassifier SVMClassifier
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
