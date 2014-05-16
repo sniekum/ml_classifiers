@@ -1,6 +1,6 @@
 <package>
   <name>ml_classifiers</name>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <description>ml_classifiers</description>
 
   <maintainer email="sniekum@cs.umass.edu">Scott Niekum</maintainer>
