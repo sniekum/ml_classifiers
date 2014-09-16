@@ -2,8 +2,8 @@
 Changelog for package ml_classifiers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.1 (2014-09-15)
+------------------
 * Fix build for indigo
 * Merge pull request `#2 <https://github.com/sniekum/ml_classifiers/issues/2>`_ from davetcoleman/rospack_dep
   Missing dep on rosdep
