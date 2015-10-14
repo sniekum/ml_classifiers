@@ -16,15 +16,15 @@ add_service_files(FILES
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
-    DEPENDS eigen
+    DEPENDS Eigen3
     CATKIN_DEPENDS message_runtime std_msgs rospy roscpp pluginlib 
     INCLUDE_DIRS include
     LIBRARIES ZeroClassifier NearestNeighborClassifier SVMClassifier
 )
 
-add_definitions(${EIGEN_DEFINITIONS})
+add_definitions(${EIGEN3_DEFINITIONS})
 
-include_directories(include ${EIGEN_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+include_directories(include ${EIGEN3_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 add_library(ZeroClassifier src/zero_classifier.cpp) 
 add_library(NearestNeighborClassifier src/nearest_neighbor_classifier.cpp)
