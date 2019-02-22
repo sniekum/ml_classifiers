@@ -42,9 +42,9 @@
 #include "ml_classifiers/nearest_neighbor_classifier.h"
 #include <pluginlib/class_list_macros.h>
 
-PLUGINLIB_DECLARE_CLASS(ml_classifiers, NearestNeighborClassifier, ml_classifiers::NearestNeighborClassifier, ml_classifiers::Classifier)
+#include <string>
 
-using namespace std;
+PLUGINLIB_EXPORT_CLASS(ml_classifiers::NearestNeighborClassifier, ml_classifiers::Classifier)
 
 namespace ml_classifiers{
 
@@ -56,9 +56,9 @@ namespace ml_classifiers{
     
     bool NearestNeighborClassifier::load(const std::string filename){return false;}
     
-    void NearestNeighborClassifier::addTrainingPoint(string target_class, const std::vector<double> point)
+    void NearestNeighborClassifier::addTrainingPoint(std::string target_class, const std::vector<double> point)
     {
-        class_data[target_class].push_back(point);
+      class_data[target_class].push_back(point);
     }
     
     void NearestNeighborClassifier::train(){}
@@ -68,15 +68,15 @@ namespace ml_classifiers{
         class_data.clear();
     }
     
-    string NearestNeighborClassifier::classifyPoint(const std::vector<double> point)
+    std::string NearestNeighborClassifier::classifyPoint(const std::vector<double> point)
     {
         size_t dims = point.size();
         double min_diff=0;
-        string ans;
+        std::string ans;
         bool first = true;
         
         for(ClassMap::iterator iter = class_data.begin(); iter != class_data.end(); iter++){
-            string cname = iter->first;
+            std::string cname = iter->first;
             CPointList cpl = iter->second;
             
             for(size_t i=0; i<cpl.size(); i++){

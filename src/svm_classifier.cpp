@@ -41,11 +41,10 @@
 
 #include "ml_classifiers/svm_classifier.h"
 #include <pluginlib/class_list_macros.h>
-#include <math.h>
+#include <cmath>
+#include <string>
 
-PLUGINLIB_DECLARE_CLASS(ml_classifiers, SVMClassifier, ml_classifiers::SVMClassifier, ml_classifiers::Classifier)
-
-using namespace std;
+PLUGINLIB_EXPORT_CLASS(ml_classifiers::SVMClassifier, ml_classifiers::Classifier)
 
 namespace ml_classifiers{
 
@@ -57,7 +56,7 @@ namespace ml_classifiers{
     
     bool SVMClassifier::load(const std::string filename){return false;}
     
-    void SVMClassifier::addTrainingPoint(string target_class, const std::vector<double> point)
+    void SVMClassifier::addTrainingPoint(std::string target_class, const std::vector<double> point)
     {
         class_data[target_class].push_back(point);
     }
@@ -94,7 +93,7 @@ namespace ml_classifiers{
         label_int_to_str.clear();
         int label_n = 0;
         for(ClassMap::iterator iter = class_data.begin(); iter != class_data.end(); iter++){
-            string cname = iter->first;
+            std::string cname = iter->first;
             label_str_to_int[cname] = label_n;
             label_int_to_str[label_n] = cname;
             //cout << "MAP: " << label_n << "   " << cname << "   Size: " << iter->second.size() << endl;
@@ -136,7 +135,7 @@ namespace ml_classifiers{
         //Put the training data into the svm_problem
         int n = 0;
         for(ClassMap::iterator iter = class_data.begin(); iter != class_data.end(); iter++){
-            string cname = iter->first;
+            std::string cname = iter->first;
             CPointList cpl = iter->second;
             
             //Account for bug in libSVM with classes with only 1 data point by duplicating it.
@@ -189,7 +188,7 @@ namespace ml_classifiers{
         }
         
         //Grid Search for best C and gamma params
-        int n_folds = min(10, n_data);  //Make sure there at least as many points as folds
+        int n_folds = std::min(10, n_data);  //Make sure there at least as many points as folds
         double *resp = new double[n_data];
         double best_accy = 0.0;
         double best_g = 0.0;
@@ -264,7 +263,7 @@ namespace ml_classifiers{
         scaling_factors = NULL;
     }
     
-    string SVMClassifier::classifyPoint(const std::vector<double> point)
+    std::string SVMClassifier::classifyPoint(const std::vector<double> point)
     {
         //Copy the point to be classified into an svm_node
         int dims = point.size();
