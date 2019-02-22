@@ -2,7 +2,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ml_classifiers)
 
-find_package(catkin REQUIRED COMPONENTS message_generation std_msgs rospy roscpp pluginlib)
+find_package(catkin REQUIRED
+  COMPONENTS message_generation std_msgs roscpp pluginlib)
+find_package(Eigen3 REQUIRED)
+
+set(Eigen3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIRS})
 
 add_message_files(FILES
   ClassDataPoint.msg
@@ -16,10 +20,10 @@ add_service_files(FILES
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
-    DEPENDS Eigen3
-    CATKIN_DEPENDS message_runtime std_msgs rospy roscpp pluginlib 
-    INCLUDE_DIRS include
-    LIBRARIES ZeroClassifier NearestNeighborClassifier SVMClassifier
+  DEPENDS Eigen3
+  CATKIN_DEPENDS message_runtime std_msgs roscpp pluginlib 
+  INCLUDE_DIRS include
+  LIBRARIES ZeroClassifier NearestNeighborClassifier SVMClassifier
 )
 
 add_definitions(${EIGEN3_DEFINITIONS})
