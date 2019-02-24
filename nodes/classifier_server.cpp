@@ -53,13 +53,13 @@ using namespace ml_classifiers;
 using namespace std;
 
 
-map<string,Classifier*> classifier_list;
+map<string, boost::shared_ptr<Classifier>> classifier_list;
 pluginlib::ClassLoader<Classifier> c_loader("ml_classifiers", "ml_classifiers::Classifier");
 
-bool createHelper(string class_type, Classifier* &c)
+bool createHelper(string class_type, boost::shared_ptr<Classifier>& c)
 {
     try{
-        c = c_loader.createClassInstance(class_type);
+        c = c_loader.createInstance(class_type);
     }
     catch(pluginlib::PluginlibException& ex){
         ROS_ERROR("Classifer plugin failed to load! Error: %s", ex.what());
@@ -73,16 +73,16 @@ bool createCallback(CreateClassifier::Request &req,
                     CreateClassifier::Response &res )
 {
     string id = req.identifier;
-    Classifier *c;
+    boost::shared_ptr<Classifier> c;
     
-    if(!createHelper(req.class_type, c)){
+    if (!createHelper(req.class_type, c)){
         res.success = false;
         return false;
     }
     
-    if(classifier_list.find(id) != classifier_list.end()){
+    if (classifier_list.find(id) != classifier_list.end()){
         cout << "WARNING: ID already exists, overwriting: " << req.identifier << endl;
-        delete classifier_list[id];
+        classifier_list.erase(id);
     }
     classifier_list[id] = c;
     
@@ -160,7 +160,7 @@ bool loadCallback(LoadClassifier::Request &req,
 {
     string id = req.identifier;
     
-    Classifier *c;
+    boost::shared_ptr<Classifier> c;
     if(!createHelper(req.class_type, c)){
         res.success = false;
         return false;
@@ -173,7 +173,7 @@ bool loadCallback(LoadClassifier::Request &req,
     
     if(classifier_list.find(id) != classifier_list.end()){
         cout << "WARNING: ID already exists, overwriting: " << req.identifier << endl;
-        delete classifier_list[id];
+        classifier_list.erase(id);
     }
     classifier_list[id] = c;
     
